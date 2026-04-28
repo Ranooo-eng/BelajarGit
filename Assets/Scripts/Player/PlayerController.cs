@@ -1,93 +1,46 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    [Header("Settings")]
-    public PlayerData playerData;
-
-    private float currentHP;
-    private Rigidbody2D rb;
+    public float currentHP = 100;
+    public float speed = 5f;
+    private PlayerInput playerInput;
     private Vector2 moveInput;
 
-    void Awake()
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
+    }
+    
+    
+    void Update()
+    {
+        if (playerInput == null) return;
+        
+        moveInput = playerInput.actions["Move"].ReadValue<Vector2>();
+        float h = moveInput.x;
+        float v = moveInput.y;
 
-
-        if (playerData == null)
-        {
-            Debug.LogError($"PlayerData belum dipasang pada {gameObject.name}! Seret file ScriptableObject-mu ke Inspector.");
-            return;
-        }
-
-        currentHP = playerData.maxHP;
+        transform.Translate(new Vector3(h, v, 0) * speed * Time.deltaTime);
     }
 
-   
-    public void OnMove(InputValue value)
+    void OnCollisionStay2D(Collision2D collision)
     {
-        moveInput = value.Get<Vector2>();
-    }
-
-    void FixedUpdate()
-    {
-
-        if (playerData != null)
-        {
-            MovePlayer();
-        }
-    }
-
-    private void MovePlayer()
-    {
-
-        rb.linearVelocity = moveInput * playerData.moveSpeed;
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-
         if (collision.gameObject.CompareTag("Wall"))
         {
-            TakeDamage(0.1f * Time.fixedDeltaTime);
+            TakeDamage(0.1f);
         }
     }
 
-    public void TakeDamage(float dmg)
+    void TakeDamage(float dmg)
     {
-        if (currentHP <= 0) return; 
-
         currentHP -= dmg;
-        currentHP = Mathf.Max(currentHP, 0);
-
-        if (Time.frameCount % 60 == 0) 
-        {
-            Debug.Log($"Player HP: {currentHP:F1}");
-        }
+        Debug.Log("Player HP: " + currentHP);
 
         if (currentHP <= 0)
         {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        Debug.Log("<color=red>Player Dead!</color>");
-        
-        
-        if (GameManager.Instance != null)
-        {
             GameManager.Instance.GameOver();
         }
-        else
-        {
-            Debug.LogWarning("GameManager.Instance tidak ditemukan! Pastikan ada GameManager di scene.");
-        }
-
-        this.enabled = false; 
-        rb.linearVelocity = Vector2.zero;
     }
 }
