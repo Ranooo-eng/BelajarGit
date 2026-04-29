@@ -48,7 +48,8 @@ public class PlayerController : MonoBehaviour
 
         if (currentHP <= 0)
         {
-            GameManager.Instance.UpdateState(GameState.GameOver);
+            GameManager.Instance.RestartGame();
+            
         }
     }
 }

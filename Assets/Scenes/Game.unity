@@ -3113,6 +3113,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5681530727943673813, guid: 892f16356eabc704db9583a9fd636a1e, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1775706137}
+    - targetCorrespondingSourceObject: {fileID: 5681530727943673813, guid: 892f16356eabc704db9583a9fd636a1e, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1775706131}
     - targetCorrespondingSourceObject: {fileID: 5681530727943673813, guid: 892f16356eabc704db9583a9fd636a1e, type: 3}
       insertIndex: -1
@@ -3141,8 +3144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6080a0859a571264b9d155ff9b9f6005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHP: 100
-  speed: 5
+  data: {fileID: 11400000, guid: 3d96bed63d97abe4f836a5f78d3947bf, type: 2}
 --- !u!114 &1775706134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3246,6 +3248,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1775706137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775706130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0dc35567fa7e6e40a5a042d216fd24f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

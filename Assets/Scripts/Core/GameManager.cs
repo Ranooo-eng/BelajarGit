@@ -55,11 +55,13 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("Game");
     }
 
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    
 }
