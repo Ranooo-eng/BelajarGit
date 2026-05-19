@@ -1,20 +1,23 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject pauseMenu;
+    public GameObject gameOverMenu;
+
     public static GameManager Instance;
+
     public GameState currentState;
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        Instance = this;
     }
 
     void Start()
     {
-        UpdateState(GameState.Playing);
-        Debug.Log("state awal ");
+        currentState = GameState.Playing;
     }
 
     void Update()
@@ -23,45 +26,57 @@ public class GameManager : MonoBehaviour
         {
             if (currentState == GameState.Playing)
             {
-                UpdateState(GameState.Paused);
-                Debug.Log("state pause");
+                PauseGame();
             }
             else if (currentState == GameState.Paused)
             {
-                UpdateState(GameState.Playing);
-                Debug.Log("state play");
+                ResumeGame();
             }
         }
     }
 
-    public void UpdateState(GameState newState)
+     public void PauseGame()
     {
-        currentState = newState;
-
-        switch (newState)
-        {
-            case GameState.Playing:
-                Time.timeScale = 1f;
-                break;
-            case GameState.Paused:
-                Time.timeScale = 0f;
-                break;
-            case GameState.GameOver:
-                Time.timeScale = 0f;
-                Debug.Log("Game Over!");
-                break;
-        }
+        Time.timeScale = 0f;
+        currentState = GameState.Paused;
+        pauseMenu.SetActive(true);
+        gameOverMenu.SetActive(false);
+        Debug.Log("Game Paused");
     }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        currentState = GameState.Playing;
+        pauseMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
+        Debug.Log("Game Resumed");
+    }
+    public void GameOver()
+    {
+        Time.timeScale = 0f;
+        Debug.Log("Game Over");
+        currentState = GameState.GameOver;
+        gameOverMenu.SetActive(true);
+        pauseMenu.SetActive(false); 
+        }
 
     public void RestartGame()
     {
         SceneManager.LoadScene("Game");
+        Time.timeScale = 1f;
+        Debug.Log("Game Restarted");
     }
 
-    public void GoToMainMenu()
+    public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1f;
+        Debug.Log("Returned to Main Menu");
     }
 
-    
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
